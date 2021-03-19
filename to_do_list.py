@@ -57,6 +57,10 @@ class Task:
         tkinter.messagebox.showinfo(title="STATUS", message="Tasks saved.")
 
     @staticmethod
+    def clear_tasks():
+        Initializer.listbox_tasks.delete(0, "end")
+
+    @staticmethod
     def load_tasks():
         try:
             successful_load = False
@@ -95,6 +99,8 @@ class Gui:
                                                command=Task.edit_task)
         self.button_del_task = tkinter.Button(root, text='-Task', width=self.listbox_tasks_width - 13,
                                               command=Task.del_task)
+        self.button_clear_tasks = tkinter.Button(root, text='Clear all tasks', width=self.listbox_tasks_width - 13,
+                                                 command=Task.clear_tasks)
         self.button_save_tasks = tkinter.Button(root, text='Save Tasks', width=self.listbox_tasks_width - 13,
                                                 command=Task.save_tasks)
         self.button_load_tasks = tkinter.Button(root, text='Load Tasks', width=self.listbox_tasks_width - 13,
@@ -104,6 +110,7 @@ class Gui:
         self.button_add_task.pack()
         self.button_edit_task.pack()
         self.button_del_task.pack()
+        self.button_clear_tasks.pack()
         self.button_save_tasks.pack()
         self.button_load_tasks.pack()
 
