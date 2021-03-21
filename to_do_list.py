@@ -6,8 +6,8 @@ from tkinter import colorchooser
 
 root = tkinter.Tk()
 root.title('To Do List BY a_walking_dead')
-color_code = colorchooser.askcolor(title="button colors")[1]
-print(color_code)
+# color_code = colorchooser.askcolor(title="button colors")[1]
+# print(color_code)
 
 class Task:
     @staticmethod
@@ -22,7 +22,7 @@ class Task:
     def add_task():
         task = Task.get_task()
         if task != "":
-            Initializer.listbox_tasks.insert(tkinter.END, ">>> " + task)
+            Initializer.listbox_tasks.insert(tkinter.END, task)
             Initializer.entry_task.delete(0, tkinter.END)
         else:
             tkinter.messagebox.showwarning(title="WARNING", message="Please enter a task.")
@@ -91,6 +91,8 @@ class Gui:
         self.listbox_tasks = tkinter.Listbox(self.frame, fg="green", bg="black", height=self.listbox_tasks_height, width=self.listbox_tasks_width)
         self.entry_task = tkinter.Entry(root, fg="green", bg="black", width=self.listbox_tasks_width)
         self.menu = tkinter.Menu(root)
+        self.filemenu = tkinter.Menu(self.menu, tearoff=0)
+        self.filemenu.add_command(label="New", command=self.donothing())
         # Assets > Scroll Bar
         self.scrollbar = tkinter.Scrollbar(self.frame)
         self.listbox_tasks.config(yscrollcommand=self.scrollbar.set)
@@ -110,6 +112,9 @@ class Gui:
                                                 command=Task.load_tasks)
         self.button_load_tasks = tkinter.Button(root, text='Load Tasks', bg="green", width=self.listbox_tasks_width,
                                                 command=Task.load_tasks)
+
+    def donothing(self):
+        pass
 
     def costumize_buttons(self):
         pass
@@ -132,6 +137,7 @@ class Gui:
 
 Initializer = Gui()
 Initializer.loader()
+root.config(menu=Initializer.menu)
 root.mainloop()
 
 
