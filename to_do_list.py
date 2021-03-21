@@ -6,8 +6,7 @@ from tkinter import colorchooser
 
 root = tkinter.Tk()
 root.title('To Do List BY a_walking_dead')
-# color_code = colorchooser.askcolor(title="button colors")[1]
-# print(color_code)
+
 
 class Task:
     @staticmethod
@@ -19,7 +18,7 @@ class Task:
         return Initializer.listbox_tasks.curselection()
 
     @staticmethod
-    def add_task():
+    def add_task(event="<Return>"):
         task = Task.get_task()
         if task != "":
             Initializer.listbox_tasks.insert(tkinter.END, task)
@@ -45,7 +44,7 @@ class Task:
             tkinter.messagebox.showwarning(title="CAUTION", message="Please type in the new task.")
 
     @staticmethod
-    def del_task():
+    def del_task(event="<Delete>"):
         task = Task.select_task()
         try:
             Initializer.listbox_tasks.delete(task)
@@ -90,20 +89,19 @@ class Gui:
         self.frame = tkinter.Frame(root)
         self.listbox_tasks = tkinter.Listbox(self.frame, fg="green", bg="black", height=self.listbox_tasks_height, width=self.listbox_tasks_width)
         self.entry_task = tkinter.Entry(root, fg="green", bg="black", width=self.listbox_tasks_width)
-        self.menu = tkinter.Menu(root)
-        self.filemenu = tkinter.Menu(self.menu, tearoff=0)
-        self.filemenu.add_command(label="New", command=self.donothing())
         # Assets > Scroll Bar
         self.scrollbar = tkinter.Scrollbar(self.frame)
         self.listbox_tasks.config(yscrollcommand=self.scrollbar.set)
         self.scrollbar.config(command=self.listbox_tasks.yview)
         # Assets > Buttons
-        self.button_add_task = tkinter.Button(root, text='+Task', bg="green", width=self.listbox_tasks_width,
+        self.button_add_task = tkinter.Button(root, text='+Task (Enter)', bg="green", width=self.listbox_tasks_width,
                                               command=Task.add_task)
+        root.bind('<Return>', Task.add_task)
         self.button_edit_task = tkinter.Button(root, text='Edit task', bg="green", width=self.listbox_tasks_width,
                                                command=Task.edit_task)
-        self.button_del_task = tkinter.Button(root, text='-Task', bg="green", width=self.listbox_tasks_width,
+        self.button_del_task = tkinter.Button(root, text='-Task (DEL)', bg="green", width=self.listbox_tasks_width,
                                               command=Task.del_task)
+        root.bind('<Delete>', Task.del_task)
         self.button_clear_tasks = tkinter.Button(root, text='Clear all tasks', bg="green", width=self.listbox_tasks_width,
                                                  command=Task.clear_tasks)
         self.button_save_tasks = tkinter.Button(root, text='Save Tasks', bg="green", width=self.listbox_tasks_width,
@@ -112,9 +110,6 @@ class Gui:
                                                 command=Task.load_tasks)
         self.button_load_tasks = tkinter.Button(root, text='Load Tasks', bg="green", width=self.listbox_tasks_width,
                                                 command=Task.load_tasks)
-
-    def donothing(self):
-        pass
 
     def costumize_buttons(self):
         pass
@@ -137,7 +132,6 @@ class Gui:
 
 Initializer = Gui()
 Initializer.loader()
-root.config(menu=Initializer.menu)
 root.mainloop()
 
 
